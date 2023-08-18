@@ -82,7 +82,7 @@ def get_by_id(id):
     
 @peminjaman_api.route('/peminjaman', methods=["POST"]) 
 # @jwt_required()
-def pembayaran():
+def peminjama():
     try:
         peminjaman_schema = peminjamanSchema()
         peminjaman = peminjaman_schema.load(request.json)
@@ -130,3 +130,33 @@ def pembayaran():
         response = BaseResponse(None, str(e), 0, 0, 0, 400)
         return jsonify(response.serialize())
     
+@peminjaman_api.route('/peminjaman/<string:id>', methods=["PUT"])
+def update_peminjaman(id):
+
+    peminjaman = request.json.get('peminjaman')
+    try:
+        data = peminjamanService.get_by_id(id)
+        if not data or data.deleted_at is not None:
+            return ErrorResponse(exception="update peminjaman is Not Found", code=400).serialize()
+
+        data.peminjaman = peminjaman
+        data.updated_at = ts
+        db.session.commit()
+
+        peminjaman_schema = peminjamanSchema() 
+
+        return (
+            jsonify(
+                BaseResponseSingle(
+                    peminjaman_schema.dump(data), 
+                    "peminjaman successfully Updated",
+                    200,
+                ).serialize()
+            ),
+            200
+        )
+    except Exception as e:
+        traceback.print_exc()
+        db.session.rollback()
+        response = BaseResponse(None, str(e), 0, 0, 0, 400)
+        return jsonify(response.serialize())
