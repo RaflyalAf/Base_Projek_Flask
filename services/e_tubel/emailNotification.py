@@ -1,5 +1,5 @@
-from schema.e-tubel.EmailNotifSchema import EmailNotificationSchema
-from models.e-tubel.EmailNotification import EmailNotification
+from schema.e_tubel.emailNotifSchema import EmailNotificationSchema
+from models.e_tubel.emailNotification import EmailNotification
 from app import db
 import smtplib
 from email.mime.text import MIMEText

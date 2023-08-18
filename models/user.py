@@ -11,8 +11,7 @@ import uuid
 class Users(db.Model):
     __tablename__ = "users"
 
-    id = db.Column(db.String(36), primary_key=True, default=str(uuid.uuid4()))
-    role_id = db.Column(db.String(36), ForeignKey('role.id'))
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
@@ -23,14 +22,12 @@ class Users(db.Model):
     deleted_at = db.Column(db.DateTime(), nullable=True)
     last_login_at = db.Column(db.DateTime(), nullable=True)
 
-    role = relationship("Role", backref="users")
     # parent_clientId = db.Column(UUID(as_uuid=True), nullable=True)
 
    
 
     def __init__(
         self,
-        role_id,
         name,
         email,
         password,
@@ -42,7 +39,6 @@ class Users(db.Model):
         last_login_at,
     ):
         self.name = name
-        self.role_id = role_id
         self.email = email
         self.password = password
         self.gender = gender

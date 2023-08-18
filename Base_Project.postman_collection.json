@@ -1,0 +1,261 @@
+{
+	"info": {
+		"_postman_id": "b5dbdf1c-760b-421e-a25b-badc8a6875e6",
+		"name": "SIMSDM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24328369",
+		"_collection_link": "https://planetary-equinox-494424.postman.co/workspace/SIMSDM~27f15039-24e7-4a6e-8627-24a13eaaf973/collection/24328369-b5dbdf1c-760b-421e-a25b-badc8a6875e6?action=share&creator=24328369&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "USER ROLE MANAGEMENT",
+			"item": [
+				{
+					"name": "Role Management",
+					"item": [
+						{
+							"name": "Get List Role",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						},
+						{
+							"name": "Get by id",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/role/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"role",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "b47ad8a6-35e5-4917-b482-7ccad4eed1a8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Role",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"role\":\"Pegawai\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/role",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"role"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Role",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/role/delete/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"role",
+										"delete",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "b47ad8a6-35e5-4917-b482-7ccad4eed1a8"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Role",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"role\":\"Employee\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/role/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"role",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "b47ad8a6-35e5-4917-b482-7ccad4eed1a8"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "User Management",
+					"item": [
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\":\"admin@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Register",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"role\":\"Super Admin\",\r\n    \"name\":\"Admin\",\r\n    \"email\":\"admin@gmail.com\",\r\n    \"password\":\"123456\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/logout",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Refresh Token",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY4NjExMjE0MiwianRpIjoiMjE0NzJjYzAtMjhlNy00MDk2LThmODEtMTc1NjUzYjMzYTdhIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IjA5MzY0MDcyLTYxYTAtNGJmYi1iY2ExLTE0ODk1YjVkY2ZmNSIsIm5iZiI6MTY4NjExMjE0MiwiZXhwIjoxNjg2MTk4NTQyfQ.Uxm5IyvKcg1JvQGGt-vjLIweX22nb1s4MHYkCQikb48",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/refresh",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"refresh"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Permission Management",
+					"item": []
+				}
+			]
+		}
+	]
+}

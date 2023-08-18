@@ -10,8 +10,8 @@ import uuid
 class LogActivity(db.Model):
     __tablename__ = "log_activity"
 
-    id = db.Column(db.String(36), primary_key=True, default=str(uuid.uuid4()))
-    user_id = db.Column(db.String(36), ForeignKey('users.id'))
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id = db.Column(UUID(as_uuid=True), ForeignKey('users.id'))
     activity = db.Column(db.String(), nullable=False)
     created_at = db.Column(db.TIMESTAMP(), nullable=False, default=datetime.utcnow())
     deleted_at = db.Column(db.TIMESTAMP(), nullable=True)

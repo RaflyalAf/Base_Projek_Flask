@@ -5,7 +5,6 @@ class UserSchema(Schema):
     name = fields.String(required=True)
     email = fields.String(required=True)
     password = fields.String(required=True)
-    role = fields.String(required=True)
     # gender = fields.String(required=False)
     class Meta:
             strict = True

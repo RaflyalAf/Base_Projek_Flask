@@ -10,7 +10,7 @@ from models.user import Users
 from schema.userSchema import UserSchema
 from app import db
 from services.logActivityService import LogActivityService
-from services.roleService import RoleService
+from services.bukuService import BukuService
 from services.userService import UserService
 from flask_jwt_extended import get_jwt_identity, jwt_required, create_access_token, create_refresh_token
 
@@ -61,7 +61,7 @@ def login():
         return jsonify(response.serialize()) 
     
 @auth_api.route('/register', methods=["POST"]) 
-@jwt_required()
+#@jwt_required()
 def register():
     try:
         user_schema = UserSchema()
@@ -71,8 +71,8 @@ def register():
             return ErrorResponse(exception="Email is Required", code=400).serialize()
         if not user.get('password'):
             return ErrorResponse(exception="Password is Required", code=400).serialize()
-        if not user.get('role'):
-            return ErrorResponse(exception="Role is Required", code=400).serialize()
+        if not user.get('name'):
+            return ErrorResponse(exception="Name is Required", code=400).serialize()
 
         user_validator = UserService.get_by_email(user['email'])
         if not validators.email(user.get('email')):
@@ -83,10 +83,9 @@ def register():
         
         
 
-        role = RoleService.get_by_role(role=user.get("role"))
+        
 
         add_user = Users(
-            role_id=role.id,
             name=user['name'],
             email=user['email'],
             password=user.get("password"),
@@ -106,7 +105,7 @@ def register():
         data = user_schema.dump(add_user)
         data.pop("password", None)  # Remove the 'password' field from the data dictionary
 
-        data["role"] = role.role  # Add role name to the data dictionary
+         # Add role name to the data dictionary
 
         return jsonify(
             BaseResponseSingle(
@@ -140,5 +139,29 @@ def refresh():
         response = BaseResponse(None, str(e), 0, 0, 0, False)
         return jsonify(response.serialize())
 
+@auth_api.route('/logout/<string:id>', methods=["PUT"])
+def logout_user(id):
+    
+    try:
+        data = LogActivityService.get_by_id(id)
+        if data.deleted_at is not None:
+            return ErrorResponse(exception="User is Not Found", code=400).serialize()
+        
+        data.deleted_at = ts
+        db.session.commit()
 
+        return (
+            jsonify(
+                BaseResponseSingle(
+                    data.id,
+                    "User successfully Logout",
+                    200,
+                ).serialize()
+            ),
+            200
+        )
+    except Exception as e:
+        traceback.print_exc()
+        response = BaseResponse(None, str(e), 0, 0, 0, 400)
+        return jsonify(response.serialize())
 

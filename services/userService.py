@@ -27,3 +27,4 @@ class UserService(db.Model):
     def get_by_email(email):
         data = Users.query.filter_by(email = email).first()
         return data
+  
