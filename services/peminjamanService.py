@@ -1,15 +1,15 @@
 from app import db
-from models.Buku import Buku
+from models.peminjaman import Peminjaman
 from sqlalchemy.sql import text
 
-class BukuService(db.Model):
-    __tablename__ = "buku"
+class peminjamanService(db.Model):
+    __tablename__ = "peminjaman"
 
     def get_list(filter, page, limit, sortBy):
         search = "%{}%".format(filter)
-        data = Buku.query.filter(
-            Buku.deleted_at == None,
-            Buku.judul_buku.ilike(search)
+        data = Peminjaman.query.filter(
+            Peminjaman.deleted_at == None,
+            Peminjaman.jumlah_bayar.ilike(search)
         )
        
         if sortBy is not None:
@@ -20,10 +20,6 @@ class BukuService(db.Model):
         return paginated_data
     
     def get_by_id(id):
-        data = Buku.query.filter_by(id = id).first()
+        data = Peminjaman.query.filter_by(id = id).first()
 
-        return data
-    
-    def get_by_buku(buku):
-        data = Buku.query.filter_by(buku = buku).first()
         return data

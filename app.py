@@ -49,6 +49,7 @@ seeder.init_app(app=app, db=db)
 
 from controllers.auth import auth_api
 from controllers.Buku import buku_api
+from contollers.peminjaman import peminjaman_api
 from controllers.e_tubel.emailNotif import email_notif
 from controllers.e_tubel.announcement import announcement
 
@@ -56,6 +57,7 @@ path_api = "/api/v1"
 
 app.register_blueprint(auth_api , url_prefix=path_api)
 app.register_blueprint(buku_api , url_prefix=path_api)
+app.register_blueprint(peminjaman_api, url_prefix=path_api)
 app.register_blueprint(email_notif, url_prefix=path_api + "/email_notif")
 app.register_blueprint(announcement, url_prefix=path_api + "/announcement")
 

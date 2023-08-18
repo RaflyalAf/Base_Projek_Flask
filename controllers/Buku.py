@@ -79,11 +79,11 @@ def get_by_id(id):
 @buku_api.route('/buku/<string:id>', methods=["PUT"])
 def update_buku(id):
 
-    buku = request.json.get('buku')
+    buku = request.json.get('kelas')
     try:
         data = BukuService.get_by_id(id)
         if not data or data.deleted_at is not None:
-            return ErrorResponse(exception="buku tidak ada", code=400).serialize()
+            return ErrorResponse(exception="buku is Not Found", code=400).serialize()
 
         data.buku = buku
         data.updated_at = ts
@@ -95,7 +95,7 @@ def update_buku(id):
             jsonify(
                 BaseResponseSingle(
                     buku_schema.dump(data), 
-                    "buku berhasil di update",
+                    "buku successfully Updated",
                     200,
                 ).serialize()
             ),
@@ -106,6 +106,7 @@ def update_buku(id):
         db.session.rollback()
         response = BaseResponse(None, str(e), 0, 0, 0, 400)
         return jsonify(response.serialize())
+
 
 
 @buku_api.route('/buku/delete/<string:id>', methods=["PUT"])
@@ -133,3 +134,53 @@ def delete_buku(id):
         traceback.print_exc()
         response = BaseResponse(None, str(e), 0, 0, 0, 400)
         return jsonify(response.serialize())
+
+@buku_api.route('/buku', methods=["POST"]) 
+# @jwt_required()
+def buku():
+    try:
+        buku_schema = BukuSchema()
+        buku = buku_schema.load(request.json)
+
+        if not buku.get('judul_buku'):
+            return ErrorResponse(exception="Judul_Buku is Required", code=400).serialize()
+        if not buku.get('kategori_buku'):
+            return ErrorResponse(exception="Kategori_buku is Required", code=400).serialize()
+        if not buku.get('penerbit'):
+            return ErrorResponse(exception="Penerbit is Required", code=400).serialize()  
+        if not buku.get('pengarang'):
+            return ErrorResponse(exception="Pengarang is Required", code=400).serialize()   
+       
+        
+
+        add_buku = Buku(
+            judul_buku=buku['judul_buku'],
+            kategori_buku=buku['kategori_buku'],
+            penerbit=buku["penerbit"],
+            pengarang=buku["pengarang"],
+            created_at=ts,
+            updated_at=None,
+            deleted_at=None,
+            
+        )
+
+        db.session.add(add_buku)
+        db.session.commit()
+
+        data = buku_schema.dump(add_buku)
+        
+    
+        return jsonify(
+            BaseResponseSingle(
+                data,
+                "buku berhasil ditambahkan",
+                200
+            ).serialize()
+        ), 200
+
+    except Exception as e:
+        traceback.print_exc()
+        db.session.rollback()
+        response = BaseResponse(None, str(e), 0, 0, 0, 400)
+        return jsonify(response.serialize())
+    
