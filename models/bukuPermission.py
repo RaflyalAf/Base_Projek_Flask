@@ -8,7 +8,7 @@ class BukuPermission(db.Model):
     __tablename__ = "buku_permission"
 
     id = db.Column(db.String(36), primary_key=True, default=str(uuid.uuid4()))
-    buku_id = db.Column(db.String(36), ForeignKey('role.id'))
+    buku_id = db.Column(db.String(36), ForeignKey('buku_id'))
     permission_id = db.Column(db.String(36), ForeignKey('permission.id'))
     created_at = db.Column(db.DateTime(), nullable=True, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime(), nullable=True)

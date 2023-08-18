@@ -21,5 +21,8 @@ class peminjamanService(db.Model):
     
     def get_by_id(id):
         data = Peminjaman.query.filter_by(id = id).first()
-
+        return data
+    
+    def get_by_judul_buku(judul_buku):
+        data = judul_buku.query.filter_by(judul_buku = judul_buku).first()
         return data

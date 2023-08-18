@@ -49,7 +49,7 @@ seeder.init_app(app=app, db=db)
 
 from controllers.auth import auth_api
 from controllers.Buku import buku_api
-from contollers.peminjaman import peminjaman_api
+from controllers.peminjaman import peminjaman_api
 from controllers.e_tubel.emailNotif import email_notif
 from controllers.e_tubel.announcement import announcement
 

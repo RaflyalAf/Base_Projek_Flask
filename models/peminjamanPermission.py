@@ -9,19 +9,18 @@ class peminjamanPermission(db.Model):
     __tablename__ = "peminjaman_Permission"
 
     id = db.Column(db.String(36), primary_key=True, default=str(uuid.uuid4()))
-    nama = db.Column(db.String(36))
-    judul_buku = db.Column(db.String(225))
-    tanggal_peminjaman = db.Column(db.String(225))
-    tanggal_pengembalian = db.column(db.String(225))
+    peminjaman_id = db.Column(UUID(as_uuid=True), ForeignKey("peminjaman.id"))
+    permission_id = db.Column(db.String(36), ForeignKey("permission_id"))
     created_at = db.Column(db.DateTime(), nullable=True, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime(), nullable=True)
     deleted_at = db.Column(db.DateTime(), nullable=True)
 
-    def __init__(self, nama, judul_buku, tanggal_peminjaman, tanggal_pemgembalian, created_at, updated_at, deleted_at):
-        self.nama = nama,
-        self.judul_buku = judul_buku,
-        self.tanggal_peminjaman = tanggal_peminjaman,
-        self.tanggal_pengembalian = tanggal_pemgembalian,
+    peminjaman = relationship("Peminjaman", backref="peminjaman_permission")
+    permission = relationship("Permission", backref="peminjaman_permission")
+
+    def __init__(self, peminjaman_id, permission_id, created_at, updated_at, deleted_at):
+        self.peminjaman_id = peminjaman_id,
+        self.permission_id = permission_id,
         self.created_at = created_at,
         self.updated_at = updated_at,
         self.deleted_at = deleted_at,

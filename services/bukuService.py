@@ -27,3 +27,8 @@ class BukuService(db.Model):
     def get_by_buku(buku):
         data = Buku.query.filter_by(buku = buku).first()
         return data
+    
+    def get_by_judul_buku(judul_buku):
+        data = Buku.query.filter_by(judul_buku = judul_buku).first()
+        return data
+    
